@@ -30,8 +30,6 @@ public class Habit {
     @Column(name = "FREQUENCY_UNIT")
     private FrequencyUnit frequencyUnit;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "habit")
+    @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Activity> activities = new ArrayList<>();
-
-
 }

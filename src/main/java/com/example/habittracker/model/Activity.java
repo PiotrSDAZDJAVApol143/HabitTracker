@@ -18,7 +18,7 @@ public class Activity {
     @Column(name = "TIMESTAMP", nullable = false)
     private LocalDateTime timestamp;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "habit_id", nullable = false)
     private Habit habit;
 }

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,4 +31,5 @@ public class HabitTracker {
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
     private Status status;
+
 }

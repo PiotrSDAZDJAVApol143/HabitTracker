@@ -1,0 +1,56 @@
+databaseChangeLog:
+#  - changeSet:
+#      id: 02_create_table_appuser
+#      author: piotr
+#      changes:
+#        - sqlFile:
+#            path: scripts/02_create_table_appuser.sql
+#            relativeToChangelogFile: true
+#            splitStatements: true
+#            stripComments: true
+  - changeSet:
+      id: 01_create_table_goal
+      author: piotr
+      changes:
+        - sqlFile:
+            path: scripts/01_create_table_goal.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 04_create_table_habit
+      author: piotr
+      changes:
+        - sqlFile:
+            path: scripts/04_create_table_habit.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 06_create_table_activity
+      author: piotr
+      changes:
+        - sqlFile:
+            path: scripts/06_create_table_activity.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 03_create_table_reminder
+      author: piotr
+      changes:
+        - sqlFile:
+            path: scripts/03_create_table_reminder.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 05_create_table_statistics
+      author: piotr
+      changes:
+        - sqlFile:
+            path: scripts/05_create_table_statistics.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

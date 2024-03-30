@@ -2,6 +2,7 @@ package com.example.habittracker.dto;
 
 import com.example.habittracker.model.Activity;
 import com.example.habittracker.model.FrequencyUnit;
+import com.example.habittracker.model.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,12 +12,16 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@Builder
-public class HabitReadDto {
+
+public class HabitDto {
+    private Long id;
     private String name;
     private String description;
     private Integer frequency;
     private FrequencyUnit frequencyUnit;
-    private List<ActivityDto> activities;
+    private String progress;
+    private Status status;
+    private List<ActivityDto> habitActivities;
+    private List<HabitReminderDto> habitReminders;
+
 }

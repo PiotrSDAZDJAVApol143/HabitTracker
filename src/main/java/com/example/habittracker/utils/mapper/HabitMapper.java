@@ -1,40 +1,56 @@
 package com.example.habittracker.utils.mapper;
 
 import com.example.habittracker.dto.ActivityDto;
-import com.example.habittracker.dto.HabitReadDto;
+import com.example.habittracker.dto.HabitDto;
+import com.example.habittracker.dto.HabitReminderDto;
+import com.example.habittracker.dto.HabitReqDto;
 import com.example.habittracker.model.Activity;
 import com.example.habittracker.model.Habit;
 
+import com.example.habittracker.model.Reminder;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HabitMapper {
+    private final ActivityMapper activityMapper;
+    private final ReminderMapper reminderMapper;
 
-    public HabitReadDto toDto (Habit habit){
-        HabitReadDto dto = HabitReadDto.builder()
-                .name(habit.getHabitName())
-                .description(habit.getDescription())
-                .frequency(habit.getFrequency())
-                .frequencyUnit(habit.getFrequencyUnit())
-                .build();
-        List<Activity> activities = habit.getActivities();
-        if(activities != null){
-            List<ActivityDto> actv = activities.stream()
-                    .map(this::mapActivityToDto)
-                    .collect(Collectors.toList());
-            dto.setActivities(actv);
-        }
+    public HabitDto toDto(Habit habit) {
+        HabitDto dto = new HabitDto();
+        dto.setId(habit.getId());
+        dto.setName(habit.getHabitName());
+        dto.setDescription(habit.getDescription());
+        dto.setFrequency(habit.getFrequency());
+        dto.setFrequencyUnit(habit.getFrequencyUnit());
+        dto.setProgress(habit.getProgress());  // TEST
+        dto.setHabitActivities(habit.getActivities().stream()
+                .map(activityMapper::toDto)
+                .collect(Collectors.toList()));
+        dto.setHabitReminders(habit.getReminders().stream()
+                .map(reminderMapper::toDto)
+                .collect(Collectors.toList()));
         return dto;
     }
-    private ActivityDto mapActivityToDto(Activity activity) {
-        ActivityDto dto = new ActivityDto();
-        dto.setId(activity.getId());
-        dto.setTimestamp(activity.getTimestamp());
-        return dto;
+
+    public Habit toEntity(HabitReqDto dto) {
+        Habit habit = new Habit();
+        habit.setHabitName(dto.getName());
+        habit.setDescription(dto.getDescription());
+        habit.setFrequency(dto.getFrequency());
+        habit.setFrequencyUnit(dto.getFrequencyUnit());
+        return habit;
+    }
+
+    public void updateHabitFromDto(HabitReqDto habitReqDto, Habit habit){
+        habit.setHabitName(habitReqDto.getName());
+        habit.setDescription(habitReqDto.getDescription());
+        habit.setFrequency(habitReqDto.getFrequency());
+        habit.setFrequencyUnit(habitReqDto.getFrequencyUnit());
     }
 }

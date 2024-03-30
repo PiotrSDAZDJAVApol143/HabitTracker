@@ -17,7 +17,15 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
-
+  - changeSet:
+      id: 05_create_table_statistics
+      author: piotr
+      changes:
+        - sqlFile:
+            path: scripts/05_create_table_statistics.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
   - changeSet:
       id: 04_create_table_habit
       author: piotr
@@ -42,15 +50,6 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: scripts/03_create_table_reminder.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 05_create_table_statistics
-      author: piotr
-      changes:
-        - sqlFile:
-            path: scripts/05_create_table_statistics.sql
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true

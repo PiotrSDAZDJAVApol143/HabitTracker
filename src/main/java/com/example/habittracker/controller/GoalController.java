@@ -1,5 +1,6 @@
 package com.example.habittracker.controller;
 
+import com.example.habittracker.dto.GoalDto;
 import com.example.habittracker.dto.GoalReqDto;
 import com.example.habittracker.model.Goal;
 import com.example.habittracker.service.GoalService;
@@ -18,21 +19,20 @@ public class GoalController {
 
     private final GoalService goalService;
 
-@PostMapping("/add")
-    public ResponseEntity<Goal> addGoal(@Valid @RequestBody GoalReqDto request){
-    Goal goal = goalService.addGoal(request);
-    goal = goalService.findOrCreateGoal(goal);
-    return new ResponseEntity<>(goal, HttpStatus.CREATED);
-}
+    @PostMapping("/add")
+    public ResponseEntity<GoalDto> addGoal(@Valid @RequestBody GoalReqDto request){
+        GoalDto goal = goalService.addGoal(request);
+        return new ResponseEntity<>(goal, HttpStatus.CREATED);
+    }
     @GetMapping("/{id}")
-    public ResponseEntity<Goal> getGoal(@PathVariable Long id){
-        Goal goal = goalService.getGoal(id);
+    public ResponseEntity<GoalDto> getGoal(@PathVariable Long id){
+        GoalDto goal = goalService.getGoal(id);
         return new ResponseEntity<>(goal, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Goal> updateGoal(@PathVariable Long id, @Valid @RequestBody GoalReqDto request){
-        Goal goal = goalService.updateGoal(id, request);
+    public ResponseEntity<GoalDto> updateGoal(@PathVariable Long id, @Valid @RequestBody GoalReqDto request){
+        GoalDto goal = goalService.updateGoal(id, request);
         return new ResponseEntity<>(goal, HttpStatus.OK);
     }
 

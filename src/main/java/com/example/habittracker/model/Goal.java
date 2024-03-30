@@ -5,7 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,10 +31,9 @@ public class Goal {
     private Category category;
 
     @Column(name = "START_DATE", nullable = false)
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "END_DATE")
-    private Date endDate;
-
+    private LocalDate endDate;
 
 }

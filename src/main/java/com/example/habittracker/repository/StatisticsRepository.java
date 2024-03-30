@@ -1,10 +1,10 @@
 package com.example.habittracker.repository;
 
 import com.example.habittracker.model.Goal;
-import com.example.habittracker.model.Reminder;
+import com.example.habittracker.model.Statistics;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReminderRepository extends JpaRepository<Reminder, Long> {
+public interface StatisticsRepository extends JpaRepository<Statistics, Long> {
 }

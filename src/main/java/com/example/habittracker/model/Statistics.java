@@ -8,8 +8,9 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
@@ -17,23 +18,27 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@Table(name = "ACTIVITY")
-public class Activity {
+@Table(name = "STATISTICS")
+public class Statistics {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ACTIVITY_NAME", nullable = false)
-    private String activityName;
+    @OneToOne
+    @JoinColumn(name = "goal_id")
+    private Goal goal;
 
-    @Column(name = "TIME_OF_ACTIVITY", nullable = false)
-    private LocalTime timeOfActivity;
+    @Column(name = "GOAL_NAME")
+    private String goalName;
 
-    @Column(name = "DATE_OF_ACTIVITY", nullable = false)
-    private LocalDate dateOfActivity;
+  //  @Column(name = "PROGRESS")
+  //  private String progress;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "habit_id", nullable = false)
-    private Habit habit;
+    @OneToMany(mappedBy = "statistics")
+    private List<Habit> habits = new ArrayList<>();
+
+    @Column(name = "STATUS")
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
 }

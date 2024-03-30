@@ -1,11 +1,18 @@
 package com.example.habittracker.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
-
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 @Entity
 @Getter
 @Setter
@@ -19,13 +26,10 @@ public class Reminder {
     private String message;
 
     @Column(name = "REMINDER_TIME")
-    private Date reminderTime;
+    private LocalDateTime reminderTime;
 
     @ManyToOne
     @JoinColumn(name = "habit_id")
     private Habit habit;
 
-    @ManyToOne
-    @JoinColumn(name = "goal_id")
-    private Goal goal;
 }

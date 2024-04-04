@@ -31,8 +31,11 @@ public class Statistics {
     @Column(name = "GOAL_NAME")
     private String goalName;
 
-  //  @Column(name = "PROGRESS")
-  //  private String progress;
+    @Column(name = "HABIT_NAME")
+    private String habitName;
+
+    @Column(name = "PROGRESS")
+    private String progress;
 
     @OneToMany(mappedBy = "statistics")
     private List<Habit> habits = new ArrayList<>();

@@ -14,6 +14,6 @@ import java.time.LocalDateTime;
 public class ReminderReqDto {
     private Long habitId;
     private String message;
-    private LocalDateTime reminderTime;
+    private String reminderTime;  // zmieniony typ na String dla formattera
 
 }

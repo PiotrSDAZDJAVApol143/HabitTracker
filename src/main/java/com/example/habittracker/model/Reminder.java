@@ -32,4 +32,5 @@ public class Reminder {
     @JoinColumn(name = "habit_id")
     private Habit habit;
 
+    private Long goalId;
 }

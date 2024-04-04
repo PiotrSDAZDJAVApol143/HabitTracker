@@ -4,8 +4,10 @@ import com.example.habittracker.dto.ActivityDto;
 import com.example.habittracker.dto.ActivityReqDto;
 import com.example.habittracker.model.Activity;
 import com.example.habittracker.model.Habit;
+import com.example.habittracker.model.Statistics;
 import com.example.habittracker.repository.ActivityRepository;
 import com.example.habittracker.repository.HabitRepository;
+import com.example.habittracker.repository.StatisticsRepository;
 import com.example.habittracker.utils.mapper.ActivityMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -22,16 +24,15 @@ public class ActivityService {
     private final ActivityMapper activityMapper;
     private final HabitRepository habitRepository;
     private final HabitService habitService;
+    private final StatisticsRepository statisticsRepository;
 
 
     public ActivityDto addActivity(ActivityReqDto request) {
-        Habit habit = getHabitFromId(request.getHabitId());
+        Habit habit = habitService.getHabitFromId(request.getHabitId()); // Tutaj używamy metody getHabitFromId z HabitService
         Activity activity = activityMapper.toEntity(request, habit);
         activity = activityRepository.save(activity);
-        habit.getActivities().add(activity);
-        String progress = habitService.calculateProgress(habit);
-        habit.setProgress(progress);
-        habitRepository.save(habit);
+        updateHabitProgress(habit);
+        updateStatisticsProgress(habit);
         return activityMapper.toDto(activity);
     }
 
@@ -70,16 +71,28 @@ public class ActivityService {
         return habitRepository.findById(habitId)
                 .orElseThrow(() -> new EntityNotFoundException("Habit not found with id: " + habitId));
     }
+    private void updateHabitProgress(Habit habit) {
+        String progress = habitService.calculateProgress(habit);
+        habit.setProgress(progress);
+        habitRepository.save(habit);
+    }
+    private void updateStatisticsProgress(Habit habit) {
+        Statistics statistics = habit.getStatistics(); // Pobieramy statystyki z nawyku
+        String progress = habitService.calculateProgress(habit); // Obliczamy nowy postęp
+        statistics.setProgress(progress); // Aktualizujemy postęp w statystykach
+        statisticsRepository.save(statistics); // Zapisujemy zmienione statystyki
+    }
 
 
 }
 
-// public Activity addActivity(ActivityDto request) {
-//     Activity activity = new Activity();
-//     activity.setActivityName(request.getActivityName());
-//     activity.setDateOfActivity(LocalDateTime.now().toLocalDate());
-//     activity.setTimeOfActivity(LocalDateTime.now().toLocalTime());
-//     activity.setHabit(request.getHabit());
-//     activityRepository.save(activity);
-//     return activity;
+// public ActivityDto addActivity(ActivityReqDto request) {
+//     Habit habit = getHabitFromId(request.getHabitId());
+//     Activity activity = activityMapper.toEntity(request, habit);
+//     activity = activityRepository.save(activity);
+//     habit.getActivities().add(activity);
+//     String progress = habitService.calculateProgress(habit);
+//     habit.setProgress(progress);
+//     habitRepository.save(habit);
+//     return activityMapper.toDto(activity);
 // }

@@ -15,5 +15,5 @@ public class ActivityDto {
     private String activityName;
     private LocalTime timeOfActivity;
     private LocalDate dateOfActivity;
-    private Habit habit;
+    //private Habit habit;
 }

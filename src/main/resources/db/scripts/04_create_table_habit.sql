@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS HABIT (
     goal_id         BIGINT,
     statistics_id   BIGINT,
     FOREIGN KEY (goal_id) REFERENCES GOAL(id),
-    FOREIGN KEY (`statistics_id`) REFERENCES `STATISTICS`(`id`)
+    FOREIGN KEY (`statistics_id`) REFERENCES STATISTICS(`id`)
 );
 

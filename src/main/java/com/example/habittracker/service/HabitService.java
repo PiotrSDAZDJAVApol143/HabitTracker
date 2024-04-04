@@ -7,6 +7,7 @@ import com.example.habittracker.dto.StatisticsReqDto;
 import com.example.habittracker.model.Goal;
 import com.example.habittracker.model.Habit;
 import com.example.habittracker.model.Statistics;
+import com.example.habittracker.model.Status;
 import com.example.habittracker.repository.GoalRepository;
 import com.example.habittracker.repository.HabitRepository;
 import com.example.habittracker.utils.mapper.HabitMapper;
@@ -24,49 +25,34 @@ public class HabitService {
     private final HabitRepository repository;
     private final HabitMapper mapper;
     private final GoalRepository goalRepository;
-    private final StatisticsService statisticsService;
-    private final StatisticsMapper statisticsMapper;
+    private final StatusService statusService;
 
 
   public HabitDto addHabit(HabitReqDto request) {
-      // Tworzymy nowy obiekt nawyku
-      Habit habit = mapper.toEntity(request);
-
-      // Pobieramy ID celu przypisanego do nawyku
-      Long goalId = request.getGoalId();
-
-      // Pobieramy cel na podstawie jego ID
-      Goal goal = goalRepository.findById(goalId)
+      Habit habit = mapper.toEntity(request); // obiekt nawyku
+      Long goalId = request.getGoalId();  // pobieranie id celu z requesta nawyku
+      Goal goal = goalRepository.findById(goalId) // na podstawie tego Id szukamy Obiekt celu
               .orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + goalId));
-
-      // Tworzymy nową statystykę dla tego celu
-      Statistics statistics = createStatisticsForGoal(goal);
-
-      // Przypisujemy statystykę do nawyku
-      habit.setStatistics(statistics);
       habit.setGoal(goal);
-      String progress = calculateProgress(habit);
-      habit.setProgress(progress);
-      // Zapisujemy nawyk w bazie danych
-      Habit savedHabit = repository.save(habit);
-
-      // Mapujemy zapisany nawyk do obiektu DTO i zwracamy
-      return mapper.toDto(savedHabit);
+      Statistics statistics = createStatisticsForGoal(goal, habit); //automatycznie generujemy nowa statystyke tego nawyku
+      habit.setStatistics(statistics); // zapisanie tej statystyki do nawyku
+      String progress = calculateProgress(habit); // inicjalizacja metody generującej info o postępach
+      habit.setProgress(progress); // zapisanie postępu
+      statusService.updateStatus(statistics); // zapisanie statustu dla statystyki nawyku
+      Habit savedHabit = repository.save(habit); // zapisujemy nawyk do bazy danych
+      return mapper.toDto(savedHabit); //mapujemy nawyk do DTO i zwracamy response;
   }
-    private Statistics createStatisticsForGoal(Goal goal) {
+    private Statistics createStatisticsForGoal(Goal goal, Habit habit) {  // metoda generująca statystykę
         Statistics statistics = new Statistics();
-        statistics.setGoal(goal);
-        statistics.setGoalName(goal.getGoalName());
+        statistics.setGoal(goal);  // przypisanie odpowiedniego celu do statystyki
+        statistics.setGoalName(goal.getGoalName());  // przypisanie odpowiedniej nazwy celu do statystyki
+        statistics.setHabitName(habit.getHabitName());  // przypisanie odpowiedniego nawyku do statystyki
+       String progress = calculateProgress(habit);
+       statistics.setProgress(progress); // przypisanie postępu danego nawyku do statystyki
+        statusService.updateStatus(statistics);  // sprawdzenie statusu statystyki
         return statistics;
     }
 
-    private Goal getGoalFromId(Long goalId) {
-        if (goalId == null) {
-            throw new IllegalArgumentException("Goal ID cannot be null");
-        }
-        return goalRepository.findById(goalId)
-                .orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + goalId));
-    }
 
     public HabitDto getHabit(Long id) {
         Habit habit = repository.findById(id)
@@ -103,6 +89,9 @@ public class HabitService {
 
     public String calculateProgress(Habit habit) {
         Goal goal = habit.getGoal();
+        if (goal == null) {
+            throw new IllegalArgumentException("Habit's goal is not set!");
+        }
         Long totalDays = ChronoUnit.DAYS.between(goal.getStartDate(), goal.getEndDate());
         Long totalActivities;
         switch (habit.getFrequencyUnit()) {
@@ -114,6 +103,13 @@ public class HabitService {
         int currentActivities = habit.getActivities().size();
         return currentActivities + " / " + totalActivities;
 
+    }
+    public Habit getHabitFromId(Long habitId) {
+        if (habitId == null) {
+            throw new IllegalArgumentException("Habit ID cannot be null");
+        }
+        return repository.findById(habitId)
+                .orElseThrow(() -> new EntityNotFoundException("Habit not found with id: " + habitId));
     }
 }
 
@@ -139,16 +135,3 @@ public class HabitService {
 //    return habit;
 
 //}
-
-
-// public HabitDto addHabit(HabitReqDto request) {
-//     Habit habit = mapper.toEntity(request);
-//     habit.setGoal(getGoalFromId(request.getGoalId()));
-//     habit = repository.save(habit);
-
-//     StatisticsReqDto statisticsReqDto = new StatisticsReqDto(habit.getGoal().getId());
-//     StatisticsDto statisticsDto = statisticsService.addStatistics(statisticsReqDto);
-//     habit.setStatistics(statisticsMapper.toEntityFromDto(statisticsDto));
-
-//     return mapper.toDto(habit);
-// }

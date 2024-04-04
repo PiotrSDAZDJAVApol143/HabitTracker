@@ -1,13 +1,13 @@
 databaseChangeLog:
-#  - changeSet:
-#      id: 02_create_table_appuser
-#      author: piotr
-#      changes:
-#        - sqlFile:
-#            path: scripts/02_create_table_appuser.sql
-#            relativeToChangelogFile: true
-#            splitStatements: true
-#            stripComments: true
+  - changeSet:
+      id: 02_create_table_appuser
+      author: piotr
+      changes:
+        - sqlFile:
+            path: scripts/02_create_table_appuser.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
   - changeSet:
       id: 01_create_table_goal
       author: piotr

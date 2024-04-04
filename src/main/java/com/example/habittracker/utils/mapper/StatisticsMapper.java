@@ -13,6 +13,7 @@ public class StatisticsMapper {
         dto.setId(statistics.getId());
         dto.setGoal(statistics.getGoal());
         dto.setGoalStatus(statistics.getStatus());
+        dto.setHabits(statistics.getHabits());
         return dto;
     }
 

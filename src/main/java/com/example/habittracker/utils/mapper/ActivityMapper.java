@@ -14,7 +14,7 @@ public class ActivityMapper {
         dto.setActivityName(activity.getActivityName());
         dto.setTimeOfActivity(activity.getTimeOfActivity());
         dto.setDateOfActivity(activity.getDateOfActivity());
-        dto.setHabit(activity.getHabit());
+       // dto.setHabit(activity.getHabit());
         return dto;
     }
 

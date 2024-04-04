@@ -24,6 +24,7 @@ public class StatisticsService {
     private final StatisticsRepository statisticsRepository;
     private final StatisticsMapper statisticsMapper;
     private final GoalRepository goalRepository;
+    private final StatusService statusService;
     private final HabitRepository habitRepository;
 
     /**
@@ -37,7 +38,8 @@ public class StatisticsService {
         statistics.setGoal(getGoalFromId(request.getGoalId()));
         statistics.setGoalName(getGoalFromId(request.getGoalId()).getGoalName());
         // statistics.setProgress(calculateProgress(statistics));
-        updateStatus(statistics); // aktualizacja statusu
+        //updateStatus(statistics); // aktualizacja statusu
+        statusService.updateStatus(statistics);
         statistics = statisticsRepository.save(statistics);
         return statisticsMapper.toDto(statistics);
     }
@@ -95,9 +97,3 @@ public class StatisticsService {
     }
 }
 
-
-// public void createStatistics(Goal goal) {
-//     Statistics statistics = new Statistics();
-//     statistics.setGoal(goal);
-//     repository.save(statistics);
-// }

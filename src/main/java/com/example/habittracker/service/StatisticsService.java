@@ -25,7 +25,6 @@ public class StatisticsService {
     private final StatisticsMapper statisticsMapper;
     private final GoalRepository goalRepository;
     private final StatusService statusService;
-    private final HabitRepository habitRepository;
 
     /**
      * This method is used to add a new statistics.
@@ -35,10 +34,12 @@ public class StatisticsService {
      */
     public StatisticsDto addStatistics(StatisticsReqDto request) {
         Statistics statistics = statisticsMapper.toEntity(request);
-        statistics.setGoal(getGoalFromId(request.getGoalId()));
-        statistics.setGoalName(getGoalFromId(request.getGoalId()).getGoalName());
-        // statistics.setProgress(calculateProgress(statistics));
-        //updateStatus(statistics); // aktualizacja statusu
+       // statistics.setGoal(getGoalFromId(request.getGoalId()));
+       // statistics.setGoalName(getGoalFromId(request.getGoalId()).getGoalName());
+        Goal goal = getGoalFromId(request.getGoalId());
+        statistics.setGoal(goal);
+        statistics.setGoalName(goal.getGoalName());
+
         statusService.updateStatus(statistics);
         statistics = statisticsRepository.save(statistics);
         return statisticsMapper.toDto(statistics);
@@ -46,7 +47,7 @@ public class StatisticsService {
     public StatisticsDto getStatistics(Long id) {
         Statistics statistics = statisticsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Statistics not found"));
-        updateStatus(statistics); // aktualizacja statusu
+        statusService.updateStatus(statistics); // aktualizacja statusu
         StatisticsDto statisticsDto = statisticsMapper.toDto(statistics);
         Goal goal = statistics.getGoal();
         if (goal != null) {
@@ -61,9 +62,7 @@ public class StatisticsService {
         Statistics statistics = statisticsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Statistics not found"));
         statistics.setGoal(getGoalFromId(request.getGoalId()));
-        //statisticsMapper.updateStatisticsFromDto(request, statistics);
-        // statistics.setProgress(calculateProgress(statistics));
-        updateStatus(statistics); // aktualizacja statusu
+        statusService.updateStatus(statistics); // aktualizacja statusu
         statistics = statisticsRepository.save(statistics);
         return statisticsMapper.toDto(statistics);
     }
@@ -82,18 +81,6 @@ public class StatisticsService {
         return goalRepository.findById(goalId)
                 .orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + goalId));
     }
-
-    public void updateStatus(Statistics statistics) {
-        if (statistics.getGoal() == null) {
-            statistics.setStatus(Status.CANCELLED);
-        } else if (LocalDate.now().isBefore(statistics.getGoal().getStartDate())) {
-            statistics.setStatus(Status.PLANNED);
-        } else if (LocalDate.now().isAfter(statistics.getGoal().getEndDate())) {
-            statistics.setStatus(Status.COMPLETED);
-        } else {
-            statistics.setStatus(Status.IN_PROGRESS);
-        }
-        statisticsRepository.save(statistics);
-    }
 }
+
 

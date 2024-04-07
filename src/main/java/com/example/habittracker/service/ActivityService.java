@@ -64,13 +64,6 @@ public class ActivityService {
         habitRepository.save(habit);
     }
 
-    private Habit getHabitFromId(Long habitId) {
-        if (habitId == null) {
-            return null;
-        }
-        return habitRepository.findById(habitId)
-                .orElseThrow(() -> new EntityNotFoundException("Habit not found with id: " + habitId));
-    }
     private void updateHabitProgress(Habit habit) {
         String progress = habitService.calculateProgress(habit);
         habit.setProgress(progress);
@@ -85,14 +78,3 @@ public class ActivityService {
 
 
 }
-
-// public ActivityDto addActivity(ActivityReqDto request) {
-//     Habit habit = getHabitFromId(request.getHabitId());
-//     Activity activity = activityMapper.toEntity(request, habit);
-//     activity = activityRepository.save(activity);
-//     habit.getActivities().add(activity);
-//     String progress = habitService.calculateProgress(habit);
-//     habit.setProgress(progress);
-//     habitRepository.save(habit);
-//     return activityMapper.toDto(activity);
-// }

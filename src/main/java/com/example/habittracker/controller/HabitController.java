@@ -3,7 +3,6 @@ package com.example.habittracker.controller;
 import com.example.habittracker.dto.HabitDto;
 import com.example.habittracker.dto.HabitReqDto;
 import com.example.habittracker.dto.HabitReminderDto;
-import com.example.habittracker.model.Habit;
 import com.example.habittracker.service.HabitService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

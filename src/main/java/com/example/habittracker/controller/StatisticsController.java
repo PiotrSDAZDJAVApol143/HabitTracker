@@ -2,7 +2,6 @@ package com.example.habittracker.controller;
 
 import com.example.habittracker.dto.StatisticsDto;
 import com.example.habittracker.dto.StatisticsReqDto;
-import com.example.habittracker.model.Statistics;
 import com.example.habittracker.service.StatisticsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

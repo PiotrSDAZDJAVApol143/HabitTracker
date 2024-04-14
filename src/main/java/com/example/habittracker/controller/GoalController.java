@@ -2,7 +2,6 @@ package com.example.habittracker.controller;
 
 import com.example.habittracker.dto.GoalDto;
 import com.example.habittracker.dto.GoalReqDto;
-import com.example.habittracker.model.Goal;
 import com.example.habittracker.service.GoalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

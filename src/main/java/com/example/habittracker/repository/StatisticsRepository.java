@@ -1,6 +1,5 @@
 package com.example.habittracker.repository;
 
-import com.example.habittracker.model.Goal;
 import com.example.habittracker.model.Statistics;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

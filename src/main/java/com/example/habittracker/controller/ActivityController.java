@@ -2,7 +2,6 @@ package com.example.habittracker.controller;
 
 import com.example.habittracker.dto.ActivityDto;
 import com.example.habittracker.dto.ActivityReqDto;
-import com.example.habittracker.model.Activity;
 import com.example.habittracker.service.ActivityService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

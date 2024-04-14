@@ -4,7 +4,6 @@ import com.example.habittracker.dto.HabitReminderDto;
 import com.example.habittracker.dto.ReminderReqDto;
 import com.example.habittracker.model.Habit;
 import com.example.habittracker.model.Reminder;
-import com.example.habittracker.repository.GoalRepository;
 import com.example.habittracker.repository.HabitRepository;
 import com.example.habittracker.repository.ReminderRepository;
 import com.example.habittracker.utils.mapper.ReminderMapper;

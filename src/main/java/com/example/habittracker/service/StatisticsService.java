@@ -1,22 +1,16 @@
 package com.example.habittracker.service;
 
+
 import com.example.habittracker.dto.StatisticsDto;
 import com.example.habittracker.dto.StatisticsReqDto;
 import com.example.habittracker.model.Goal;
-import com.example.habittracker.model.Habit;
 import com.example.habittracker.model.Statistics;
-import com.example.habittracker.model.Status;
 import com.example.habittracker.repository.GoalRepository;
-import com.example.habittracker.repository.HabitRepository;
 import com.example.habittracker.repository.StatisticsRepository;
 import com.example.habittracker.utils.mapper.StatisticsMapper;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

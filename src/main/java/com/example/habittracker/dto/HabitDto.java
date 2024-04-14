@@ -1,10 +1,8 @@
 package com.example.habittracker.dto;
 
-import com.example.habittracker.model.Activity;
+
 import com.example.habittracker.model.FrequencyUnit;
 import com.example.habittracker.model.Status;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
